@@ -1,0 +1,21 @@
+<mat-toolbar>
+  <span>Visitor Details:-</span>
+  <span class="fill-remaining-space"></span>
+  <button class="btn-dialog-close" (click)="closeDialog()" tabIndex="-1"><mat-icon>X</mat-icon></button>
+</mat-toolbar>
+<div class="mat-elevation-z8">
+  <mat-table [dataSource]="listData" matSort>
+    <ng-container matColumnDef="visitorName">
+      <mat-header-cell *matHeaderCellDef mat-sort-header><b>Visitor Name</b></mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.visitorName}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="visitorRating">
+      <mat-header-cell *matHeaderCellDef mat-sort-header><b>Rating</b></mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.visitorRating}}</mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" [showFirstLastButtons]="true"></mat-paginator>
+</div>
+

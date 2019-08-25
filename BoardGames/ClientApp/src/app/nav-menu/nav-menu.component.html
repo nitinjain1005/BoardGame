@@ -1,0 +1,55 @@
+<header>
+  <nav class='navbar navbar-expand-sm navbar-toggleable-sm navbar-light  border-bottom box-shadow mb-3 '>
+    <div class="container">
+      <a class="navbar-brand" [routerLink]='["/visitor-rating"]'><h2>Board Games</h2></a>
+      <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" [ngClass]='{"show": isExpanded}'>
+      </div>
+      <div *ngIf="!isLogin">
+        <form [formGroup]="loginForm" class="form-inline">
+          <div class="form-group">
+            <div class="col-md-2  ">
+            </div>
+            <div class="col-md-3 ">
+              <input type="text" formControlName="UsrId" maxlength="25"  [(ngModel)]="UserId"
+                     class="form-control" id="UsrId" placeholder="Admin User Name"
+                     [ngClass]="{ 'is-invalid': submitted && f.UsrId.errors }">
+              <div *ngIf="submitted && f.UsrId.errors" class="invalid-feedback">
+                <div *ngIf="f.UsrId.errors.required">User Name is required</div>
+              </div>
+
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-3">
+              <input type="password" [(ngModel)]="Password" maxlength="25"  formControlName="Password" class="form-control" id="Password" placeholder="Admin Password"
+                     [ngClass]="{ 'is-invalid': submitted && f.Password.errors }">
+              <div *ngIf="submitted && f.Password.errors" class="invalid-feedback">
+                <div *ngIf="f.Password.errors.required">Password is required</div>
+              </div>
+
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-2">
+              <button id="btn" class="form-control" mat-raised-button color="primary" type="submit" (click)="Login()">Log In</button>
+
+            </div>
+          </div>
+        </form>
+      </div>
+      <div *ngIf="isLogin">
+        <form [formGroup]="loginForm" class="form-inline">
+          <div class="form-group row">
+            <div class="col-md-6">Hi <b>{{LoginUser}}</b></div>
+            <div class="col-md-2  ">
+              <button id="btn" class="form-control" mat-raised-button color="primary" type="submit" (click)="LogOut()">Log out</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </nav>
+
+</header>
+
+

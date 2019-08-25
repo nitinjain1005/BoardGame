@@ -1,0 +1,96 @@
+<mat-toolbar color="accent">
+  <span class="title-center">Hi Visitor,  Welcome to Board Games !</span>
+</mat-toolbar>
+<div class="search-div"></div>
+<div class="mat-elevation-z8">
+  <mat-table [dataSource]="listData" matSort>
+    <ng-container matColumnDef="srno">
+      <mat-header-cell *matHeaderCellDef mat-sort-header><b>Sr. No.</b></mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.srno}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="gameName">
+      <mat-header-cell *matHeaderCellDef mat-sort-header><b>Game Name</b></mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.gameName}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="AvgStars">
+      <mat-header-cell *matHeaderCellDef mat-sort-header><b>Average Rating</b></mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <a *ngFor="let item of element.AvgStars;">
+          <i class="fa" style="color:green" [ngClass]="{'fa-star-o':item,'fa-star':!item}"></i>
+        </a>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="rating">
+      <mat-header-cell *matHeaderCellDef><b>Rating</b></mat-header-cell>
+      <mat-cell *matCellDef="let element let i=index ">
+        <a *ngFor="let item of element.stars; let i=index " (click)="setStar(element,i)">
+          <i class="fa" [ngClass]="{'fa-star-o':item,'fa-star':!item}"></i>
+        </a>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="loading">
+      <mat-footer-cell *matFooterCellDef colspan="6">
+        Loading data...
+      </mat-footer-cell>
+    </ng-container>
+    <ng-container matColumnDef="noData">
+      <mat-footer-cell *matFooterCellDef colspan="6">
+        No data.
+      </mat-footer-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide':listData!=null}"></mat-footer-row>
+    <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide':!(listData!=null && listData.data.length==0)}"></mat-footer-row>
+  </mat-table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" [showFirstLastButtons]="true"></mat-paginator>
+</div>
+<p class="text-info">* Visitors can provide their ratings against each game and then fill their personal details and submit.</p>
+
+<div style="margin-top: 3%">
+  <form [formGroup]="visitorForm">
+    <div class="form-group row">
+      <div class="col-md-3">
+        <label for="fname"><b>*First Name:</b></label>
+        <input type="text" formControlName="firstName" maxlength="25" class="form-control" id="fname" placeholder="Enter First Name" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }">
+        <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+          <div *ngIf="f.firstName.errors.required">First Name is required</div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <label for="lname"><b>*Last Name:</b></label>
+        <input type="text" formControlName="lastName" maxlength="25"  class="form-control" id="lname" placeholder="Enter Last Name" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }">
+        <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+          <div *ngIf="f.lastName.errors.required">Last Name is required</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <label for="email"><b>*Email Id:</b></label>
+        <input type="email" formControlName="email" maxlength="25"  class="form-control" id="email" placeholder="Enter Email Id" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+          <div *ngIf="f.email.errors.required">Email is required</div>
+          <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <label class="row" for="btn" style="color:white">Submit Rating:</label>
+        <button class="row" id="btn" mat-raised-button color="primary" type="submit" (click)="onSubmit()" name="btn1">Submit Rating</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div style="margin-top: 3%">
+
+  <span *ngFor="let i of saveUserRatingResponse">
+    <!-- <br/>
+    Game Name: {{i.gameName}} , Messagee: {{i.message}} -->
+    <div class="row">
+      <div class="col-md-3"><b>Game Name:</b>  {{i.gameName}}</div>
+      <div class="col-md-4"><b>Messagee:</b>  {{i.message}}</div>
+    </div>
+
+  </span>
+
+</div>
